@@ -1,0 +1,34 @@
+--[=[ 
+    Project Blood Moon - Kesin Çalışan Win Bloğu
+]=]
+
+local winPart = script.Parent
+local debounce = false
+
+winPart.Touched:Connect(function(hit)
+	if debounce then return end
+
+	local character = hit.Parent
+	local humanoid = character:FindFirstChildOfClass("Humanoid")
+
+	if humanoid and humanoid.Health > 0 then
+		local player = game.Players:GetPlayerFromCharacter(character)
+
+		if player then
+			debounce = true
+
+			local leaderstats = player:FindFirstChild("leaderstats")
+			if leaderstats then
+				local winsStat = leaderstats:FindFirstChild("Wins")
+				if winsStat then
+					winsStat.Value = winsStat.Value + 1
+				end
+			end
+
+			humanoid.Health = 0
+
+			task.wait(1.5)
+			debounce = false
+		end
+	end
+end)
